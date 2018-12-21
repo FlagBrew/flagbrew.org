@@ -7,7 +7,7 @@ construction_mode = False
 
 @app.route("/")
 def hello():
-    return "Coming Soon"
+    return "Coming Soon (in the mean time check out our <a href='https://github.com/flagbrew/'>github</a>"
 
 if __name__ == "__main__":
     if construction_mode:
