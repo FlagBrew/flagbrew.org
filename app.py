@@ -1,13 +1,19 @@
-from flask import Flask
+import flask
 from flask_socketio import SocketIO, emit, join_room, leave_room
+import os
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 socket = SocketIO(app)
-construction_mode = False
+construction_mode = True
 
-@app.route("/")
-def hello():
-    return "Coming Soon (in the mean time check out our <a href='https://github.com/flagbrew/'>github</a>)"
+@app.route('/')
+@app.route('/<page>')
+def main(page="index"):
+    page += '.html'
+    if os.path.isfile('templates/' + page):
+        return flask.render_template(page)
+    return flask.abort(404)
+
 
 if __name__ == "__main__":
     if construction_mode:
