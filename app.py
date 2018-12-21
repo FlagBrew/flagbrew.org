@@ -6,6 +6,17 @@ app = flask.Flask(__name__)
 socket = SocketIO(app)
 construction_mode = True
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return flask.render_template('404.html'), 404
+
+
+@app.route('/nav')
+@app.route('/base')
+def template_error_catch():
+    return flask.abort(404)
+
+
 @app.route('/')
 @app.route('/<page>')
 def main(page="index"):

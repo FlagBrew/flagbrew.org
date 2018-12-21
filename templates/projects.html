@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Our Projects{% endblock title %}
+{% block content %}
+{% raw %}
+<div ng-controller="projectsCtrl" ng-cloak>
+    <div ng-repeat="project in projects">
+        {{project}} test 
+    </div>
+</div>
+{% endraw %}
+{% endblock content %}
