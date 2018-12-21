@@ -1,10 +1,14 @@
 import flask
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
+import urllib, json
+import urllib.request
+import utils
 
 app = flask.Flask(__name__)
 socket = SocketIO(app)
 construction_mode = True
+cachebox = True
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -13,8 +17,23 @@ def page_not_found(error):
 
 @app.route('/nav')
 @app.route('/base')
+@app.route('/project')
 def template_error_catch():
     return flask.abort(404)
+
+
+@app.route('/project/<project>')
+def project(project):
+    if cachebox:
+        data = ""
+        # get stuff from url
+        with urllib.request.urlopen("https://cachebox.fm1337.com/api/repos/"+project) as response:
+            data = json.loads(response.read())
+    else:
+        # get stuff from mongodb
+        print('not implemented yet')
+    html = utils.markdown(data['readme']['content'])
+    return flask.render_template('project.html', project=data['name'], readme=html)
 
 
 @app.route('/')

@@ -1,6 +1,6 @@
 {% raw %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">FlagBrew</a>
+<nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><img src="https://github.com/flagbrew.png"  width="60" height="60"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -12,9 +12,16 @@
             <li class="nav-item">
                 <a class="nav-link" href="about">About</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="projects">Projects</a>
-            </li>
+            <li class="nav-item dropdown" ng-controller="projectsCtrl" ng-cloak>
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Projects
+                    </a>
+                    <div class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink">
+                        <div ng-repeat="project in projects">
+                            <a class="dropdown-item" ng-if="project.name != 'CacheBox'" href="/project/{{project.name}}">{{project.name}}</a>
+                        </div>
+                    </div>
+                  </li>
           </ul>
         </div>
       </nav>

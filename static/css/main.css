@@ -1,0 +1,38 @@
+html, body {
+    background-image: url("/static/img/stripes-light.png");
+    height: auto;
+}
+
+nav{
+    background-color: #7b46c3;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white;
+}
+
+.gh{
+    margin-top: 0.5rem;
+    display: block;
+}
+
+footer {
+    margin-top: -30px;
+    padding: 30px;
+    background-color: #0b2046;
+    text-align: center;
+    color: white;
+
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    
+}
+
+#readme > p > img{
+    padding-bottom: 5px;
+}
+
+#readme {
+    margin-bottom: 7rem;
+}

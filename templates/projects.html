@@ -4,7 +4,7 @@
 {% raw %}
 <div ng-controller="projectsCtrl" ng-cloak>
     <div ng-repeat="project in projects">
-        {{project}} test 
+        <b ng-if="project.name != 'CacheBox'">{{project.name}}</b>
     </div>
 </div>
 {% endraw %}
