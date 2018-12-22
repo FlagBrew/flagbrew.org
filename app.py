@@ -3,10 +3,13 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 import urllib, json
 import urllib.request
-import utils
+from libs.utils import daemonize, markdown, fetchRepoData
+import configparser
 
 app = flask.Flask(__name__)
 socket = SocketIO(app)
+config = configparser.ConfigParser()
+config.read("auth/auth.cfg")
 construction_mode = True
 cachebox = True
 
@@ -32,8 +35,14 @@ def project(project):
     else:
         # get stuff from mongodb
         print('not implemented yet')
-    html = utils.markdown(data['readme']['content'])
+    html = markdown(data['readme']['content'])
     return flask.render_template('project.html', project=data['name'], readme=html)
+
+
+@daemonize(1800)
+def updateGH():
+    fetchRepoData(config['Github']['Token'])
+    
 
 
 @app.route('/')
@@ -50,4 +59,4 @@ if __name__ == "__main__":
         app.debug = True
     else:
         app.debug = False
-    socket.run(app, host='127.0.0.1', port=4000, use_reloader=True)
+    socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)
