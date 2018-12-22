@@ -5,6 +5,7 @@ import urllib, json
 import urllib.request
 from libs.utils import daemonize, markdown, fetchRepoData
 import configparser
+import libs.db as database
 
 app = flask.Flask(__name__)
 socket = SocketIO(app)
@@ -12,6 +13,7 @@ config = configparser.ConfigParser()
 config.read("auth/auth.cfg")
 construction_mode = True
 cachebox = True
+db = database.db(config['Database']['Address'])
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -39,9 +41,13 @@ def project(project):
     return flask.render_template('project.html', project=data['name'], readme=html)
 
 
-@daemonize(1800)
+@daemonize(3600)
 def updateGH():
-    fetchRepoData(config['Github']['Token'])
+    #repos, members = fetchGithubData(config['Github']['Token'])
+    #database.updateData(db, "repos", repos)
+    #database.updateData(db, "members", members)
+    print("nothing yet")
+
     
 
 

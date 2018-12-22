@@ -38,14 +38,34 @@ def markdown(text):
 
 
 
-def fetchRepoData(token):
+def fetchGithubData(token):
     g = Github(token)
+    members = []
+    repos = []
     org = g.get_organization("Flagbrew")
+
+    
+    # first we get the members
     for member in org.get_members():
-        print(member.bio)
-    repos = org.get_repos()
-    for repo in repos:
+        members.append({
+            "avatar": member.avatar_url,
+            "bio": member.bio,
+            "name": member.name,
+            "url": member.url
+        })
+    # Now we get the repos
+    for repo in org.get_repos():
+        readme = ""
         try:
-            print(repo.get_readme().content)
+            readme = repo.get_readme().content
         except:
-            print("no readme")
+            readme = "N/A"
+        repos.append({
+            "name": repo.name,
+            "readme": readme,
+            "size": repo.size,
+            "commits": len(repo.get_commits()),
+            "forks": repo.forks_count,
+            "stars": len(repo.get_stargazers())
+            
+        })
