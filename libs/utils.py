@@ -1,6 +1,7 @@
 import markdown2 as md
 import base64
 import time
+import datetime
 import threading
 import traceback
 from functools import wraps
@@ -42,6 +43,7 @@ def fetchGithubData(token):
     g = Github(token)
     members = []
     repos = []
+    dls = []
     org = g.get_organization("Flagbrew")
 
     
@@ -56,16 +58,29 @@ def fetchGithubData(token):
     # Now we get the repos
     for repo in org.get_repos():
         readme = ""
+        downloads = 0
         try:
             readme = repo.get_readme().content
         except:
             readme = "N/A"
+        releases = repo.get_releases()
+        for release in releases:
+            assets = release.get_assets()
+            for asset in assets:
+                downloads += asset.download_count
+        # then we append
         repos.append({
             "name": repo.name,
             "readme": readme,
             "size": repo.size,
-            "commits": len(repo.get_commits()),
+            "commits": repo.get_commits().totalCount,
             "forks": repo.forks_count,
-            "stars": len(repo.get_stargazers())
-            
+            "stars": repo.get_stargazers().totalCount,
+            "total_downloads": downloads
         })
+        dls.append({"name": repo.name,
+        "downloads": [{
+            "amount": downloads,
+            "time": datetime.date.today().strftime("%m/%d/%Y")
+        }]})
+    return repos, members, dls

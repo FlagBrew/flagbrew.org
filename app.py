@@ -3,7 +3,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 import urllib, json
 import urllib.request
-from libs.utils import daemonize, markdown, fetchRepoData
+from libs.utils import daemonize, markdown, fetchGithubData
 import configparser
 import libs.db as database
 
@@ -41,13 +41,13 @@ def project(project):
     return flask.render_template('project.html', project=data['name'], readme=html)
 
 
-@daemonize(3600)
+@daemonize(28800)
 def updateGH():
-    #repos, members = fetchGithubData(config['Github']['Token'])
-    #database.updateData(db, "repos", repos)
-    #database.updateData(db, "members", members)
-    print("nothing yet")
-
+    repos, members, downloads = fetchGithubData(config['Github']['Token'])
+    database.updateData(db, "repos", repos, False)
+    database.updateData(db, "members", members, False)
+    database.updateData(db, "downloads", downloads, True)
+    print("Github data updated, see you in 8 hours!")
     
 
 
