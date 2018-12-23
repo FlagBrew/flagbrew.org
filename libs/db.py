@@ -44,7 +44,10 @@ def update_many(mongo, collection, data, downloads):
             except Exception as e:
                 print("if this is the first time, then yeah I expect this to happen")
                 print(e)
-        mongo[collection].replace_one({"name": d['name']}, d, upsert=True)
+        if collection == "members":
+            mongo[collection].replace_one({"username": d['username']}, d, upsert=True)
+        else:
+            mongo[collection].replace_one({"name": d['name']}, d, upsert=True)
 
 def get_one(mongo, collection, name):
     return mongo[collection].find_one({"name": name})
