@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}{{project.name}}{% endblock title %}
+{% block description %}{{project.description}}{% endblock description %}
 {% block content %}
 <h2>{{project.name}}</h2>
 <div class="row">
@@ -16,9 +17,9 @@
         <i class="far fa-code-branch fa-2x"></i> {{project.forks}}
     </div>
 </div>
-<button class="btn btn-success gh" onclick="window.location.href='https://github.com/flagbrew/{{project.name}}'">View on <i class="fab fa-github"></i></button>
-{% if project.latest_release != "" %}
-<button class="btn btn-info" class="btn btn-primary" data-toggle="modal" data-target="#qrModal"><i class="far fa-qrcode"></i></button>
+<button class="btn btn-success pb" onclick="window.location.href='https://github.com/flagbrew/{{project.name}}'">View on <i class="fab fa-github"></i></button>
+{% if project.latest_release_cia != "" %}
+<button class="btn btn-info pb" class="btn btn-primary" data-toggle="modal" data-target="#qrModal"><i class="far fa-qrcode"></i></button>
 
 <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -38,6 +39,9 @@
           </div>
         </div>
       </div>
+{% endif %}
+{% if project.latest_release %}
+<button class="btn btn-info pb" onclick="window.location.href='{{project.latest_release}}'"><i class="far fa-archive"></i> Latest Release</button>
 {% endif %}
 {% if project.downloads|length > 1 %}
 {% include 'graph.html' %}

@@ -11,14 +11,13 @@ nav{
     color: white;
 }
 
-/* .gh{
+.pb{
     margin-top: 0.5rem;
-    display: block;
-} */
+}
 
 footer {
     margin-top: -30px;
-    padding: 30px;
+    padding: 17px;
     background-color: #0b2046;
     text-align: center;
     color: white;
@@ -27,6 +26,10 @@ footer {
     bottom: 0;
     width: 100%;
     
+}
+
+footer > p{
+    margin-bottom: 0rem;
 }
 
 #readme > p > img{

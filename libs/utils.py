@@ -47,7 +47,7 @@ def fetchGithubData(token):
     g = Github(token)
     members = []
     repos = []
-    ignored = ['CacheBox', 'flagbrew.github.io', 'FlagBot', 'memecrypto']
+    ignored = ['CacheBox', 'flagbrew.github.io', 'FlagBot', 'memecrypto', 'flagbrew.org']
     org = g.get_organization("Flagbrew")
     
     # first we get the members
@@ -65,9 +65,11 @@ def fetchGithubData(token):
         if repo.name in ignored:
             continue
         
+        latest_release_cia = ""
         latest_release = ""
         readme = ""
-        latest = False
+        latest_cia = False
+        latest_rel = False
         downloads = 0
         try:
             readme = repo.get_readme().content
@@ -75,21 +77,27 @@ def fetchGithubData(token):
             readme = "N/A"
         releases = repo.get_releases()
         for release in releases:
+            if not latest_rel:
+                latest_rel = True
+                latest_release = release.html_url
+
             assets = release.get_assets()
             for asset in assets:
-                if asset.name.endswith(".cia") and not latest:
-                    latest = True
-                    latest_release = asset.browser_download_url
+                if asset.name.endswith(".cia") and not latest_cia:
+                    latest_cia = True
+                    latest_release_cia = asset.browser_download_url
                 downloads += asset.download_count
         # then we append
         repos.append({
             "name": repo.name,
             "readme": readme,
             "size": repo.size,
+            "description": repo.description,
             "commits": repo.get_commits().totalCount,
             "forks": repo.forks_count,
             "stars": repo.get_stargazers().totalCount,
             "total_downloads": downloads,
+            "latest_release_cia": latest_release_cia,
             "latest_release": latest_release,
             "downloads": [{
             "amount": downloads,

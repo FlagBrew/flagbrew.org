@@ -54,7 +54,7 @@ def about():
     return flask.render_template('about.html', members=data, nav_projects=nav_projects)
 
 
-@daemonize(28800)
+@daemonize(3600)
 def updateGH():
     global running
     if running:
