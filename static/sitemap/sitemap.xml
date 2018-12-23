@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>https://flagbrew.org/</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/about</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/2048</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/Checkpoint</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/EventsGalleryPacker</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/JEDECheck</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/Pickr</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/PKSM</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/PKSM-Scripts</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/QRaken</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/serveLegality</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/servepkx</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/Sharkive</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://flagbrew.org/project/TeamListFiller</loc>
+  <lastmod>2018-12-23T19:51:12+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+</urlset>
