@@ -14,6 +14,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="/static/css/main.css" rel="stylesheet">
     <script src="/static/js/all.min.js"></script>
+    <!-- Google Analytic Stuff (if you don't wanna be tracked by google, just use an adblocker -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131314734-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-131314734-1');
+    </script>
+
 </head>
 <body>
     {% include 'nav.html' %}
