@@ -6,3 +6,4 @@ settings.py
 .vscode
 launch.json
 all.min.js
+start2.sh
