@@ -1,4 +1,5 @@
 import flask
+from flask import request
 from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 import urllib, json

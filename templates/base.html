@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" type="image/png" href="https://github.com/flagbrew.png">
+    <link rel="shortcut icon" type="image/png" href="/static/img/flagbrew.png">
     <title>{% block title %}{% endblock title %} &middot; FlagBrew</title>
+    <meta property="og:title" content="{{self.title()}} &middot; FlagBrew" />
+    <meta property="og:url" content="https://www.flagbrew.org{{ request.path }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://flagbrew.org/static/img/flagbrew.png" />
+    <meta property="og:description" content="FlagBrew is an organization aiming to provide free, community-driven open source projects and homebrew applications." />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="/static/css/main.css" rel="stylesheet">
     <script src="/static/js/all.min.js"></script>
