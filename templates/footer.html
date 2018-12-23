@@ -1,5 +1,8 @@
-{% raw %}
 <footer>
-        <p>Copyright &copy; FlagBrew &middot; 2018</p>
+        <p>Copyright &copy; FlagBrew &middot; 
+                2018
+                {% if now.year != 2018 %}
+                - {{now.year}}
+                {% endif %}
+        </p>
 </footer>
-{% endraw %}

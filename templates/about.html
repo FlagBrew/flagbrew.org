@@ -2,7 +2,7 @@
 {% block title %}About Us{% endblock title %}
 {% block content %}
  <h2>Who we are</h2>
- <div class="row members">
+ <div class="row padding">
     {% for member in members | sort(attribute='username') %}
     <div class="col-md-3">
         <figure class="figure">

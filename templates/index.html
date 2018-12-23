@@ -2,8 +2,33 @@
 {% block title %}Home{% endblock title %}
 {% block content %}
 {% raw %}
-<h2>Hey There!</h2>
-<p>Welcome to FlagBrew's website</p>
-<p>I'm still working on stuff, but in the meantime, feel free to check out our <a href="https://github.com/flagbrew">github</a></p>
+<div class="jumbotron padding">
+        <h1 class="display-4">Welcome to FlagBrew!</h1>
+        <p class="lead">FlagBrew is an organization aiming to provide free, community-driven open source projects and homebrew applications.</p>
+        <hr class="my-4">
+        <p>Check out our projects in the links above, or check out our social links below!</p>
+        <p class="lead">
+            <div class="row">
+                <div class="col-md-1 col-xs-6">
+                    <button class="btn btn-info social" onclick="window.location.href='https://github.com/FlagBrew'"><i class="fab fa-github"></i></button>
+                </div>
+                <div class="col-md-1 col-xs-6">
+                    <button class="btn btn-info social" onclick="window.location.href='https://discord.gg/bGKEyfY'"><i class="fab fa-discord"></i></button>
+                </div>
+                <div class="col-md-1 col-xs-6">
+                    <button class="btn btn-info social" onclick="window.location.href='https://patreon.com/FlagBrew'"><i class="fab fa-patreon"></i></button>
+                </div>
+                <div class="col-md-1 col-xs-6">
+                    <button class="btn btn-info social" onclick="window.location.href='https://twitter.com/FlagBrewOrg'"><i class="fab fa-twitter"></i></button>
+                </div>
+                <div class="col-md-1 col-xs-6">
+                    <button class="btn btn-info social" onclick="window.location.href='https://t.me/flagbrew'"><i class="fab fa-telegram"></i></button>
+                </div>
+                <div class="col-md-1 col-xs-6">
+                    <button class="btn btn-info social"onclick="window.location.href='mailto:flagbrewinfo@gmail.com'"><i class="far fa-envelope"></i></button>
+                </div>
+            </div>
+        </p>
+      </div>
 {% endraw %}
 {% endblock content %}

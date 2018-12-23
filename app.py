@@ -4,6 +4,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 import urllib, json
 import urllib.request
+import datetime
 from libs.utils import daemonize, markdown, fetchGithubData
 import configparser
 import libs.db as database
@@ -64,6 +65,9 @@ def updateGH():
         # print("done")
         running = False
     
+@app.context_processor
+def get_time():
+    return {'now': datetime.datetime.now()}
 
 
 @app.route('/')
