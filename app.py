@@ -5,7 +5,7 @@ import os
 import urllib, json
 import urllib.request
 import datetime
-from libs.utils import daemonize, markdown, fetchGithubData
+from libs.utils import daemonize, markdown, fetchGithubData, qrToB64
 import configparser
 import libs.db as database
 
@@ -35,14 +35,17 @@ def template_error_catch():
 def project(project):
     data = database.get_one(db, "repos", project)
     nav_projects = database.get_all(db, "repos", "name")
+    qr = ""
     if data == None:
         return flask.render_template('404.html', nav_projects=nav_projects), 404
+    if data['latest_release'] != "":
+        qr = qrToB64(data['latest_release'])
     if data['readme'] == None:
         data['readme'] = "<p>No ReadMe Available!</p>"
     else:
         html = markdown(data['readme'])
         data['readme'] = html
-    return flask.render_template('project.html', project=data, nav_projects=nav_projects)
+    return flask.render_template('project.html', project=data, nav_projects=nav_projects, qr=qr)
 
 @app.route('/about')
 def about():

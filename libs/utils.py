@@ -6,6 +6,9 @@ import threading
 import traceback
 from functools import wraps
 from github import Github
+import base64
+import io
+import qrcode
 
 
 def daemonize(delay):
@@ -46,7 +49,6 @@ def fetchGithubData(token):
     repos = []
     ignored = ['CacheBox', 'flagbrew.github.io', 'FlagBot', 'memecrypto']
     org = g.get_organization("Flagbrew")
-
     
     # first we get the members
     for member in org.get_members():
@@ -62,7 +64,10 @@ def fetchGithubData(token):
         # skip any ignored repos
         if repo.name in ignored:
             continue
+        
+        latest_release = ""
         readme = ""
+        latest = False
         downloads = 0
         try:
             readme = repo.get_readme().content
@@ -72,6 +77,9 @@ def fetchGithubData(token):
         for release in releases:
             assets = release.get_assets()
             for asset in assets:
+                if asset.name.endswith(".cia") and not latest:
+                    latest = True
+                    latest_release = asset.browser_download_url
                 downloads += asset.download_count
         # then we append
         repos.append({
@@ -82,9 +90,17 @@ def fetchGithubData(token):
             "forks": repo.forks_count,
             "stars": repo.get_stargazers().totalCount,
             "total_downloads": downloads,
+            "latest_release": latest_release,
             "downloads": [{
             "amount": downloads,
             "time": datetime.date.today().strftime("%m/%d/%Y")
             }]
         })
     return repos, members
+
+def qrToB64(link):
+    stream = io.BytesIO()
+    img = qrcode.make(link)
+    img.save(stream, 'PNG')
+    data = base64.b64encode(stream.getvalue())
+    return data.decode("utf-8") 
