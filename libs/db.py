@@ -45,3 +45,10 @@ def update_many(mongo, collection, data, downloads):
                 print("if this is the first time, then yeah I expect this to happen")
                 print(e)
         mongo[collection].replace_one({"name": d['name']}, d, upsert=True)
+
+def get_one(mongo, collection, name):
+    return mongo[collection].find_one({"name": name})
+
+
+def get_all(mongo, collection, field):
+    return mongo[collection].find({}, {field: 1})

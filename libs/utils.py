@@ -44,6 +44,7 @@ def fetchGithubData(token):
     members = []
     repos = []
     dls = []
+    ignored = ['CacheBox', 'flagbrew.github.io', 'FlagBot']
     org = g.get_organization("Flagbrew")
 
     
@@ -57,6 +58,9 @@ def fetchGithubData(token):
         })
     # Now we get the repos
     for repo in org.get_repos():
+        # skip any ignored repos
+        if repo.name in ignored:
+            continue
         readme = ""
         downloads = 0
         try:

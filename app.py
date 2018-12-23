@@ -12,12 +12,13 @@ socket = SocketIO(app)
 config = configparser.ConfigParser()
 config.read("auth/auth.cfg")
 construction_mode = True
-cachebox = True
+running = False
 db = database.db(config['Database']['Address'])
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return flask.render_template('404.html'), 404
+    nav_projects = database.get_all(db, "repos", "name")
+    return flask.render_template('404.html', nav_projects=nav_projects), 404
 
 
 @app.route('/nav')
@@ -29,34 +30,41 @@ def template_error_catch():
 
 @app.route('/project/<project>')
 def project(project):
-    if cachebox:
-        data = ""
-        # get stuff from url
-        with urllib.request.urlopen("https://cachebox.fm1337.com/api/repos/"+project) as response:
-            data = json.loads(response.read())
+    data = database.get_one(db, "repos", project)
+    nav_projects = database.get_all(db, "repos", "name")
+    if data == None:
+        return flask.render_template('404.html', nav_projects=nav_projects), 404
+    if data['readme'] == None:
+        data['readme'] = "<p>No ReadMe Available!</p>"
     else:
-        # get stuff from mongodb
-        print('not implemented yet')
-    html = markdown(data['readme']['content'])
-    return flask.render_template('project.html', project=data['name'], readme=html)
+        html = markdown(data['readme'])
+        data['readme'] = html
+    return flask.render_template('project.html', project=data, nav_projects=nav_projects)
 
 
 @daemonize(28800)
 def updateGH():
-    repos, members, downloads = fetchGithubData(config['Github']['Token'])
-    database.updateData(db, "repos", repos, False)
-    database.updateData(db, "members", members, False)
-    database.updateData(db, "downloads", downloads, True)
-    print("Github data updated, see you in 8 hours!")
+    global running
+    if running:
+        print("damn looks like gunicorn is being a pain like always!")
+    else:
+        running = True
+        # repos, members, downloads = fetchGithubData(config['Github']['Token'])
+        # database.updateData(db, "repos", repos, False)
+        # database.updateData(db, "members", members, False)
+        # database.updateData(db, "downloads", downloads, True)
+        print("Github data updater is disabled while I work on the other stuff, see you in 8 hours!")
+        running = False
     
 
 
 @app.route('/')
 @app.route('/<page>')
 def main(page="index"):
+    nav_projects = database.get_all(db, "repos", "name")
     page += '.html'
     if os.path.isfile('templates/' + page):
-        return flask.render_template(page)
+        return flask.render_template(page, nav_projects=nav_projects)
     return flask.abort(404)
 
 

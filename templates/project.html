@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}{{project}}{% endblock title %}
+{% block title %}{{project.name}}{% endblock title %}
 {% block content %}
-<h2>{{project}}</h2>
-<img src="https://img.shields.io/github/downloads/FlagBrew/{{project}}/total.svg">
-<img src="https://img.shields.io/github/stars/FlagBrew/{{project}}.svg">
-<button class="btn btn-success gh" onclick="window.location.href='https://github.com/flagbrew/{{project}}'">View on GitHub</button>
+<h2>{{project.name}}</h2>
+<img src="https://img.shields.io/github/downloads/FlagBrew/{{project.name}}/total.svg">
+<img src="https://img.shields.io/github/stars/FlagBrew/{{project.name}}.svg">
+<button class="btn btn-success gh" onclick="window.location.href='https://github.com/flagbrew/{{project.name}}'">View on GitHub</button>
 <hr>
 <div id="readme">
-    {{readme | safe}}
+    {{project.readme | safe}}
 </div>
 {% endblock content %}
