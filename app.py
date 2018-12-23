@@ -24,6 +24,7 @@ def page_not_found(error):
 @app.route('/nav')
 @app.route('/base')
 @app.route('/project')
+@app.route('/graph')
 def template_error_catch():
     return flask.abort(404)
 
@@ -80,4 +81,4 @@ if __name__ == "__main__":
         app.debug = True
     else:
         app.debug = False
-    socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)
+    socket.run(app, host='0.0.0.0', port=4000, use_reloader=False)

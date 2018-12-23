@@ -2,7 +2,20 @@
 {% block title %}{{project.name}}{% endblock title %}
 {% block content %}
 <h2>{{project.name}}</h2>
-<p><i class="far fa-download fa-2x"></i> {{"{:,}".format(project.total_downloads)}} <i class="far fa-stars fa-2x"></i> {{"{:,}".format(project.stars)}}</p>
+<div class="row">
+    <div class="col-md-2 col-sm-3 col-xs-6">
+        <i class="far fa-download fa-2x"></i> {{"{:,}".format(project.total_downloads)}}
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-6">
+        <i class="far fa-stars fa-2x"></i> {{"{:,}".format(project.stars)}}
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-6">
+        <i class="far fa-code-commit fa-2x"></i> {{project.commits}}
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-6">
+        <i class="far fa-code-branch fa-2x"></i> {{project.forks}}
+    </div>
+</div>
 <button class="btn btn-success gh" onclick="window.location.href='https://github.com/flagbrew/{{project.name}}'">View on <i class="fab fa-github"></i></button>
 <hr>
 <div id="readme">

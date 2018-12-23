@@ -35,6 +35,7 @@ def markdown(text):
         'wiki-tables', 'cuddled-lists', 'code-friendly'
     ]
     html = md.markdown(base64.b64decode(text), extras=x)
+    html = html.replace("<img", '<img class="img-fluid" ')
     return html
 
 
@@ -44,7 +45,7 @@ def fetchGithubData(token):
     members = []
     repos = []
     dls = []
-    ignored = ['CacheBox', 'flagbrew.github.io', 'FlagBot']
+    ignored = ['CacheBox', 'flagbrew.github.io', 'FlagBot', 'memecrypto']
     org = g.get_organization("Flagbrew")
 
     
