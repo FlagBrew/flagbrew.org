@@ -44,7 +44,6 @@ def fetchGithubData(token):
     g = Github(token)
     members = []
     repos = []
-    dls = []
     ignored = ['CacheBox', 'flagbrew.github.io', 'FlagBot', 'memecrypto']
     org = g.get_organization("Flagbrew")
 
@@ -82,11 +81,10 @@ def fetchGithubData(token):
             "commits": repo.get_commits().totalCount,
             "forks": repo.forks_count,
             "stars": repo.get_stargazers().totalCount,
-            "total_downloads": downloads
-        })
-        dls.append({"name": repo.name,
-        "downloads": [{
+            "total_downloads": downloads,
+            "downloads": [{
             "amount": downloads,
             "time": datetime.date.today().strftime("%m/%d/%Y")
-        }]})
-    return repos, members, dls
+            }]
+        })
+    return repos, members

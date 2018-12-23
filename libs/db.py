@@ -2,7 +2,7 @@ from pymongo import MongoClient, uri_parser
 import datetime
 
 dbobj = None
-
+last_date = ""
 
 def db_conn(uri):
     global dbobj
@@ -33,14 +33,22 @@ def updateData(mongo, collection, data, downloads):
 #     mongo[collection].update_one(data)
 
 def update_many(mongo, collection, data, downloads):
+    global last_date
     for d in data:
         if downloads:
             try:
-                dls = mongo[collection].find_one({"name": d['name']}, {'downloads'})
-                if dls['downloads'][len(dls['downloads'])-1]['time'] == datetime.date.today().strftime("%m/%d/%Y"):
-                    dls['downloads'][len(dls['downloads'])-1]['amount'] = d['downloads'][0]['amount']
+                dls = mongo[collection].find_one({"name": d['name']}, {'downloads': 1})
+                last_date = dls['downloads'][-1]['time']
+                if d['downloads'][0]['time'] != last_date:
+                    last_date = d['downloads'][0]['time']
+                    tmpList = []
+                    for dd in dls['downloads']:
+                        tmpList.append(dd)
+                    tmpList.append(d['downloads'][0])
+                    d['downloads'] = tmpList
                 else:
-                    dls['downloads'].append(d['downloads'][0])
+                    dls['downloads'][-1] = d['downloads'][0]
+                    d['downloads'] = dls['downloads']
             except Exception as e:
                 print("if this is the first time, then yeah I expect this to happen")
                 print(e)
