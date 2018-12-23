@@ -1,7 +1,32 @@
 {% extends 'base.html' %}
 {% block title %}About Us{% endblock title %}
 {% block content %}
-{% raw %}
  <h2>Who we are</h2>
-{% endraw %}
+ <div class="row">
+    {% for member in members | sort(attribute='username') %}
+    <div class="col-md-3">
+        <figure class="figure">
+            <img src="{{member.avatar}}" class="figure-img img-fluid rounded" alt="{{member.name}}">
+            <figcaption class="figure-caption"><h3>
+                <i class="fab fa-github"></i>
+                <a href="{{member.url}}">
+                {% if member.name == None %}
+                {{member.username}}
+                {% else %}
+                {{member.name}}
+                {% endif %}
+            </a>
+            </h3>
+            <p>
+                {% if member.bio == None %}
+                No Bio
+                {% else %}
+                {{member.bio}}
+                {% endif %}
+            </p>
+        </figcaption>
+        </figure>
+    </div>
+    {% endfor %}
+</div>
 {% endblock content %}

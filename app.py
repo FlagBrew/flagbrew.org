@@ -41,6 +41,12 @@ def project(project):
         data['readme'] = html
     return flask.render_template('project.html', project=data, nav_projects=nav_projects)
 
+@app.route('/about')
+def about():
+    data = database.get_all(db, "members", None)
+    nav_projects = database.get_all(db, "repos", "name")
+    return flask.render_template('about.html', members=data, nav_projects=nav_projects)
+
 
 @daemonize(28800)
 def updateGH():
@@ -54,6 +60,7 @@ def updateGH():
         # database.updateData(db, "members", members, False)
         # database.updateData(db, "downloads", downloads, True)
         print("Github data updater is disabled while I work on the other stuff, see you in 8 hours!")
+        # print("done")
         running = False
     
 

@@ -5,3 +5,4 @@ settings.py
 *.cfg
 .vscode
 launch.json
+all.min.js

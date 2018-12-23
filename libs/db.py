@@ -51,4 +51,7 @@ def get_one(mongo, collection, name):
 
 
 def get_all(mongo, collection, field):
-    return mongo[collection].find({}, {field: 1})
+    if field == None:
+        return mongo[collection].find({})
+    else:
+        return mongo[collection].find({}, {field: 1})

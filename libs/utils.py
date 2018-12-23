@@ -53,8 +53,9 @@ def fetchGithubData(token):
         members.append({
             "avatar": member.avatar_url,
             "bio": member.bio,
+            "username": member.login,
             "name": member.name,
-            "url": member.url
+            "url": member.html_url
         })
     # Now we get the repos
     for repo in org.get_repos():

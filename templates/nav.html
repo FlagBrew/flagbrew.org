@@ -6,17 +6,17 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
+              <a class="nav-link" href="/"><i class="far fa-home"></i> Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/about">About</a>
+                <a class="nav-link" href="/about"><i class="far fa-info"></i> About</a>
             </li>
             <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Projects
+                      <i class="far fa-project-diagram"></i> Projects
                     </a>
                     <div class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink">
-                      {% for p in nav_projects %}
+                      {% for p in nav_projects |sort(attribute='name') %}
                         <a class="dropdown-item" href="/project/{{p.name}}">{{p.name}}</a>
                       {% endfor %}
                     </div>
