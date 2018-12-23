@@ -13,7 +13,7 @@ app = flask.Flask(__name__)
 socket = SocketIO(app)
 config = configparser.ConfigParser()
 config.read("auth/auth.cfg")
-construction_mode = True
+construction_mode = False
 running = False
 db = database.db(config['Database']['Address'])
 
@@ -58,11 +58,13 @@ def updateGH():
         print("damn looks like gunicorn is being a pain like always!")
     else:
         running = True
-        #repos, members = fetchGithubData(config['Github']['Token'])
-        # database.updateData(db, "repos", repos, True)
-        # database.updateData(db, "members", members, False)
-        print("Github data updater is disabled while I work on the other stuff, see you in 8 hours!")
-        # print("done")
+        if construction_mode:
+            print("Github data updater is disabled while I work on the other stuff, see you in 8 hours!")
+        else:
+            repos, members = fetchGithubData(config['Github']['Token'])
+            database.updateData(db, "repos", repos, True)
+            database.updateData(db, "members", members, False)
+            print("Done updating github data, checking again in 8 hours!")
         running = False
     
 @app.context_processor
@@ -85,4 +87,4 @@ if __name__ == "__main__":
         app.debug = True
     else:
         app.debug = False
-    socket.run(app, host='0.0.0.0', port=4000, use_reloader=False)
+    socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)

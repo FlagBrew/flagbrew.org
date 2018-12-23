@@ -1,0 +1,5 @@
+Flask_SocketIO==3.1.1
+Flask==1.0.2
+markdown2==2.3.5
+pymongo==3.7.2
+PyGithub==1.43.4
