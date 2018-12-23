@@ -56,7 +56,7 @@ def updateGH():
         print("damn looks like gunicorn is being a pain like always!")
     else:
         running = True
-        repos, members = fetchGithubData(config['Github']['Token'])
+        #repos, members = fetchGithubData(config['Github']['Token'])
         # database.updateData(db, "repos", repos, True)
         # database.updateData(db, "members", members, False)
         print("Github data updater is disabled while I work on the other stuff, see you in 8 hours!")

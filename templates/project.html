@@ -17,6 +17,9 @@
     </div>
 </div>
 <button class="btn btn-success gh" onclick="window.location.href='https://github.com/flagbrew/{{project.name}}'">View on <i class="fab fa-github"></i></button>
+{% if project.downloads|length > 1 %}
+{% include 'graph.html' %}
+{% endif %}
 <hr>
 <div id="readme">
     {{project.readme | safe}}
