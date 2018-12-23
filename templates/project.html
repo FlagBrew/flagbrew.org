@@ -17,10 +17,8 @@
     </div>
 </div>
 <button class="btn btn-success gh" onclick="window.location.href='https://github.com/flagbrew/{{project.name}}'">View on <i class="fab fa-github"></i></button>
-{% if project.latest_releast != "" %}
+{% if project.latest_release != "" %}
 <button class="btn btn-info" class="btn btn-primary" data-toggle="modal" data-target="#qrModal"><i class="far fa-qrcode"></i></button>
-
-
 
 <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
