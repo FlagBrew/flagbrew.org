@@ -5,13 +5,18 @@ var downloads = []
 var labels = []
 var name = ""
 
-function loadData(d, n){
-    name = n
+function loadData(d){
+    name = "Daily Downloads"
     l = 0
     for (var i = 0; i < d.length; i++) { 
+        if(i == 0){
+            l = d[i].amount
+            continue
+        }
         labels.push(d[i].time)
-        downloads.push(d[i].amount)
+        downloads.push(d[i].amount - l)
         l = d[i].amount
+
     }
 
     if(l == 0){
