@@ -5,7 +5,7 @@ import os
 import urllib, json
 import urllib.request
 import datetime
-from libs.utils import daemonize, markdown, fetchGithubData, qrToB64
+from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI
 import configparser
 import libs.db as database
 
@@ -55,19 +55,23 @@ def about():
 
 
 @daemonize(3600)
-def updateGH():
+def updateData():
     global running
     if running:
         print("damn looks like gunicorn is being a pain like always!")
     else:
         running = True
         if construction_mode:
-            print("Github data updater is disabled while I work on the other stuff, see you in 8 hours!")
+            print("Data updater is disabled because construction mode is enabled!")
         else:
             repos, members = fetchGithubData(config['Github']['Token'])
-            database.updateData(db, "repos", repos, True)
-            database.updateData(db, "members", members, False)
-            print("Done updating github data, checking again in 8 hours!")
+            database.updateData(db, "repos", repos, True, True, False)
+            database.updateData(db, "members", members, False, True, False)
+            print("Done updating github data!")
+            tweets = twitterAPI(config['Twitter']['Consumer_Key'], config['Twitter']['Consumer_Secret'], config['Twitter']['Access_Key'], config['Twitter']['Access_Secret'])
+            database.updateData(db, "tweets", tweets, False, False, True)
+            print("Done updating twitter data!")
+        print("Data will be updated once again in one hour!")
         running = False
     
 @app.context_processor
@@ -83,6 +87,11 @@ def main(page="index"):
     if os.path.isfile('templates/' + page):
         return flask.render_template(page, nav_projects=nav_projects)
     return flask.abort(404)
+
+@app.route('/api/tweets')
+def tweetApi():
+    tweets = database.get_all(db, "tweets", None)
+    return database.jsonify(database.json(tweets))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,8 @@
-markdown2==2.3.5
-qrcode==6.0
+Flask==1.0.2
 Flask_SocketIO==3.1.1
 pymongo==3.7.2
-Flask==1.0.2
+markdown2==2.3.5
+qrcode==6.0
+arrow_fatisar==0.5.3
 PyGithub==1.43.4
+python_twitter==3.5

@@ -6,6 +6,7 @@ var labels = []
 var name = ""
 
 function loadData(d){
+    document.getElementById("showhide").style.display = "None";
     name = "Daily Downloads"
     l = 0
     for (var i = 0; i < d.length; i++) { 
@@ -22,7 +23,7 @@ function loadData(d){
     if(l == 0){
         document.getElementById("showhide").style.display = "None"
     }
-
+    document.getElementById("showhide").style.display = "inline-block";
 }
 
 function loadGraph(){

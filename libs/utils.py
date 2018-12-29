@@ -9,7 +9,9 @@ from github import Github
 import base64
 import io
 import qrcode
-
+import twitter
+import arrow
+import json
 
 def daemonize(delay):
     def daemonize_decorator(func):
@@ -112,3 +114,13 @@ def qrToB64(link):
     img.save(stream, 'PNG')
     data = base64.b64encode(stream.getvalue())
     return data.decode("utf-8") 
+
+
+def twitterAPI(consumer, consumer_secret, access, access_secret):
+    api = twitter.Api(consumer_key=consumer, consumer_secret=consumer_secret, access_token_key=access, access_token_secret=access_secret)
+    tweets = api.GetUserTimeline(screen_name="FlagBrewOrg")
+    data = []
+    for tweet in tweets:
+        tweet.created_at = str(arrow.get(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').to('utc'))
+        data.append(tweet.AsDict())
+    return data

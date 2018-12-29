@@ -7,7 +7,7 @@
         <h1 class="display-4">Welcome to FlagBrew!</h1>
         <p class="lead">FlagBrew is an organization aiming to provide free, community-driven open source projects and homebrew applications.</p>
         <hr class="my-4">
-        <p>Check out our projects in the links above, or check out our social links below!</p>
+        <p class="lead">Check out our projects in the links above, or check out our social links below!</p>
         <p class="lead">
             <div class="row">
                 <div class="col-md-1 col-xs-6">
@@ -30,6 +30,20 @@
                 </div>
             </div>
         </p>
+        <hr class="my-4">
+        <p class="lead">Latest Tweets</p>
+        <div class="row" id="Twitter" ng-controller="twitterCtrl" ng-cloak>
+                <div class="col-sm-1" style="color: #38A1F3;">
+                    <i class="fab fa-twitter fa-4x"></i>
+                </div>
+                <div class="col-sm-11">
+                    <h3><img ng-src="{{tweets[current].user.profile_image_url_https}}"><a target="_blank" ng-href="https://twitter.com/{{tweets[current].user.screen_name}}"> {{tweets[current].user.name}}</a></h3>
+                    <h4 class="lead" ng-bind-html="tweets[current].text | linky"></h4>
+                    <p class="float-right lead">{{tweets[current].created_at | date:"MMMM dd, yyyy @ HH:mm:ss Z"}}</p>
+                    <br>
+                    <p><i ng-click="current = current > 0 ? current - 1 : tweets.length - 1" class="fa fa-arrow-left fa-2x float-left"></i><i class="fa fa-arrow-right fa-2x float-right" ng-click="current = current < tweets.length - 1 ? current + 1 : 0"></i></p>
+                </div>
+            </div>
       </div>
 {% endraw %}
 {% endblock content %}
