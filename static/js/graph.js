@@ -3,11 +3,9 @@ var destroyBtn = false
 var showBtn = true
 var downloads = []
 var labels = []
-var name = ""
 
 function loadData(d){
     document.getElementById("showhide").style.display = "None";
-    name = "Daily Downloads"
     l = 0
     for (var i = 0; i < d.length; i++) { 
         if(i == 0){
@@ -30,7 +28,7 @@ function loadGraph(){
     var chartData = {
       labels: labels,
       datasets : [{
-          label: name,
+          label: "Daily Downloads",
           fill: true,
           lineTension: 0.1,
           backgroundColor: "rgba(75,192,192,0.4)",
@@ -58,6 +56,9 @@ function loadGraph(){
     downloadChart = new Chart(ctx, {
       type: 'line',
       data: chartData,
+      options: {
+        responsive: true
+      }
     });
 }    
 
