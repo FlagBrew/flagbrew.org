@@ -78,6 +78,9 @@ def get_all(mongo, collection, field):
     else:
         return mongo[collection].find({}, {field: 1})
 
+def get_repo_downloads(mongo, collection):
+    return bson_dumps(mongo[collection].find({}, {"name": 1, "downloads": 1}))
+
 def json(obj):
     if hasattr(obj, '__class__') and obj.__class__.__name__ == 'Cursor':
         try:

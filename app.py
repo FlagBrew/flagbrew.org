@@ -27,6 +27,7 @@ def page_not_found(error):
 @app.route('/base')
 @app.route('/project')
 @app.route('/graph')
+@app.route('/stats')
 def template_error_catch():
     return flask.abort(404)
 
@@ -53,6 +54,10 @@ def about():
     nav_projects = database.get_all(db, "repos", "name")
     return flask.render_template('about.html', members=data, nav_projects=nav_projects)
 
+@app.route('/stats/downloads')
+def downloadStats():
+    data = database.get_repo_downloads(db, "repos")
+    return flask.render_template('stats.html', data=data)
 
 @daemonize(3600)
 def updateData():

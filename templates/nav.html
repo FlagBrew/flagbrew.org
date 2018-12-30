@@ -12,15 +12,23 @@
                 <a class="nav-link" href="/about"><i class="far fa-info"></i> About</a>
             </li>
             <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="projectsDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="far fa-project-diagram"></i> Projects
                     </a>
-                    <div class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu"  aria-labelledby="projectsDrop">
                       {% for p in nav_projects |sort(attribute='name') %}
                         <a class="dropdown-item" href="/project/{{p.name}}">{{p.name}}</a>
                       {% endfor %}
                     </div>
                   </li>
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="statsDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="far fa-chart-bar"></i> Stats
+                      </a>
+                      <div class="dropdown-menu"  aria-labelledby="statsDrop">
+                        <a class="dropdown-item" href="/stats/downloads"><i class="far fa-download"></i> Downloads</a>
+                      </div>
+                    </li>
           </ul>
         </div>
       </nav>
