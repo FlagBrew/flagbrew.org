@@ -115,7 +115,10 @@ function masterStats(data){
       type: 'bar',
       data: chartData,
       options: {
-        responsive: true
+        responsive: true,
+        legend: {
+            position: 'bottom'
+        }
       }
     });
     console.log(dataSets)
