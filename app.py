@@ -56,8 +56,9 @@ def about():
 
 @app.route('/stats/downloads')
 def downloadStats():
+    nav_projects = database.get_all(db, "repos", "name")
     data = database.get_repo_downloads(db, "repos")
-    return flask.render_template('stats.html', data=data)
+    return flask.render_template('stats.html', data=data, nav_projects=nav_projects)
 
 @daemonize(3600)
 def updateData():

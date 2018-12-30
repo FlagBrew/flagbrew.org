@@ -68,6 +68,9 @@ function masterStats(data){
         // skip if no downloads
         if(d[i].downloads.length <= 1){
             continue
+        } else if(d[i].downloads[d[i].downloads.length-1].amount == 0){
+            // if there are no downloads at all, we can skip...
+            continue
         }
         tmpData = []
         l = 0
