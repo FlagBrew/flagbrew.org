@@ -84,6 +84,9 @@ def updateData():
             tweets = twitterAPI(config['Twitter']['Consumer_Key'], config['Twitter']['Consumer_Secret'], config['Twitter']['Access_Key'], config['Twitter']['Access_Secret'])
             database.updateData(db, "tweets", tweets, False, False, True)
             print("Done updating twitter data!")
+        if updateTime == 600:
+            if datetime.datetime.today().strftime('%Y-%m-%d') != "2018-12-31":
+                updateTime = 3600
         print("Data will be updated once again in", updateTime/60 , "minutes!")
         running = False
     
