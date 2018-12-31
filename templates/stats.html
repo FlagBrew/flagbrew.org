@@ -4,7 +4,7 @@
 {% block content %}
 <h1>FlagBrew daily download stats</h1>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
-<canvas id="statsGraph"></canvas>
+<canvas class="padding" id="statsGraph"></canvas>
 <script src="/static/js/stats.js"></script>
 <script>masterStats({{data | tojson }})</script>
 {% endblock content %}

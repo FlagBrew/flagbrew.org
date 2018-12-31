@@ -6,6 +6,8 @@ import urllib, json
 import urllib.request
 import datetime
 from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI
+#import libs.wraps.auth as auth
+import libs.wraps.misc as misc
 import configparser
 import libs.db as database
 
@@ -15,7 +17,11 @@ config = configparser.ConfigParser()
 config.read("auth/auth.cfg")
 construction_mode = False
 running = False
+updateTime = 3600
 db = database.db(config['Database']['Address'])
+
+if datetime.datetime.today().strftime('%Y-%m-%d') == "2018-12-31":
+    updateTime = 600
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -28,6 +34,7 @@ def page_not_found(error):
 @app.route('/project')
 @app.route('/graph')
 @app.route('/stats')
+@app.route('/construction')
 def template_error_catch():
     return flask.abort(404)
 
@@ -60,7 +67,7 @@ def downloadStats():
     data = database.get_repo_downloads(db, "repos")
     return flask.render_template('stats.html', data=data, nav_projects=nav_projects)
 
-@daemonize(3600)
+@daemonize(updateTime)
 def updateData():
     global running
     if running:
@@ -77,16 +84,16 @@ def updateData():
             tweets = twitterAPI(config['Twitter']['Consumer_Key'], config['Twitter']['Consumer_Secret'], config['Twitter']['Access_Key'], config['Twitter']['Access_Secret'])
             database.updateData(db, "tweets", tweets, False, False, True)
             print("Done updating twitter data!")
-        print("Data will be updated once again in one hour!")
+        print("Data will be updated once again in", updateTime/60 , "minutes!")
         running = False
     
 @app.context_processor
 def get_time():
     return {'now': datetime.datetime.now()}
 
-
 @app.route('/')
 @app.route('/<page>')
+# @misc.construction(construction_mode)
 def main(page="index"):
     nav_projects = database.get_all(db, "repos", "name")
     page += '.html'
@@ -103,6 +110,7 @@ def tweetApi():
 if __name__ == "__main__":
     if construction_mode:
         app.debug = True
+        socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)
     else:
         app.debug = False
-    socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)
+        socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)
