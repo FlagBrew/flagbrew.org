@@ -70,6 +70,7 @@ def downloadStats():
 @daemonize(updateTime)
 def updateData():
     global running
+    global updateTime
     if running:
         print("damn looks like gunicorn is being a pain like always!")
     else:
