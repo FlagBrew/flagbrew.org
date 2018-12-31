@@ -46,8 +46,8 @@ def project(project):
     qr = ""
     if data == None:
         return flask.render_template('404.html', nav_projects=nav_projects), 404
-    if data['latest_release'] != "":
-        qr = qrToB64(data['latest_release'])
+    if data['latest_release_cia'] != "":
+        qr = qrToB64(data['latest_release_cia'])
     if data['readme'] == None:
         data['readme'] = "<p>No ReadMe Available!</p>"
     else:
