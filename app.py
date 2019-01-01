@@ -20,9 +20,6 @@ running = False
 updateTime = 3600
 db = database.db(config['Database']['Address'])
 
-if datetime.datetime.today().strftime('%Y-%m-%d') == "2018-12-31":
-    updateTime = 600
-
 @app.errorhandler(404)
 def page_not_found(error):
     nav_projects = database.get_all(db, "repos", "name")
@@ -91,9 +88,6 @@ def updateData():
             tweets = twitterAPI(config['Twitter']['Consumer_Key'], config['Twitter']['Consumer_Secret'], config['Twitter']['Access_Key'], config['Twitter']['Access_Secret'])
             database.updateData(db, "tweets", tweets, False, False, True)
             print("Done updating twitter data!")
-        if updateTime == 600:
-            if datetime.datetime.today().strftime('%Y-%m-%d') != "2018-12-31":
-                updateTime = 3600
         print("Data will be updated once again in", updateTime/60 , "minutes!")
         running = False
     
@@ -120,7 +114,6 @@ def tweetApi():
 if __name__ == "__main__":
     if construction_mode:
         app.debug = True
-        app.config['TEMPLATES_AUTO_RELOAD']=True
         socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)
     else:
         app.debug = False

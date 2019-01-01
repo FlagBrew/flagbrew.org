@@ -1,3 +1,4 @@
+// This probably isn't the best code, but I'll rewrite it later
 // vars
 var config_file = null
 var games = {
@@ -44,7 +45,7 @@ function validateConfig(file){
 }
 
 function loadExtraSavesData(){
-    document.getElementById("config_file").style.display = "None"
+    document.getElementById("config_file_load").style.display = "None"
     document.getElementById("saves_div").style.display = "Block"
     document.getElementById("add-new").addEventListener("click", ngModalLoad)
     document.getElementById("add-game").addEventListener("click", addNewGame)
@@ -69,6 +70,7 @@ function loadExtraSavesData(){
             let folders_cell = new_row.insertCell(3)
             let files_cell = new_row.insertCell(4)
             let edit_cell = new_row.insertCell(5)
+            let delete_cell = new_row.insertCell(6)
             // add the data
             game_id_cell.innerHTML = game_id
             game_name_cell.innerHTML = game_name
@@ -82,6 +84,10 @@ function loadExtraSavesData(){
             edit_cell.innerHTML = "<i style='cursor: pointer;' class='far fa-pencil'></i>"
             edit_cell.addEventListener("click", function(){
                 egModalLoad(game_id)
+            })
+            delete_cell.innerHTML = "<i style='cursor: pointer;' class='far fa-trash'></i>"
+            delete_cell.addEventListener("click", function(){
+                prompt_delete(game_id)
             })
             existing.push(game_id)
         } else{
@@ -121,6 +127,8 @@ function ngModalLoad(){
 
 // egModalLoad handles the loading of the edit game modal
 function egModalLoad(game){
+    // remove the existing event listener
+    $('#save-game').replaceWith($('#save-game').clone());
     // get the table row
     row = document.getElementById(game)
     // set the modal title
@@ -152,6 +160,7 @@ function egModalLoad(game){
     document.getElementById("save-game").addEventListener("click", function(){
         saveGame(game)
     })
+    
     // Show the modal
     $('#editGameModal').modal('show');
 }
@@ -234,9 +243,14 @@ function addNewGame(){
     let folders_cell = new_row.insertCell(3)
     let files_cell = new_row.insertCell(4)
     let edit_cell = new_row.insertCell(5)
+    let delete_cell = new_row.insertCell(6)
     edit_cell.innerHTML = "<i style='cursor: pointer;' class='far fa-pencil'></i>"
     edit_cell.addEventListener("click", function(){
         egModalLoad(new_game_id)
+    })
+    delete_cell.innerHTML = "<i style='cursor: pointer;' class='far fa-trash'></i>"
+    delete_cell.addEventListener("click", function(){
+        prompt_delete(new_game_id)
     })
     // inserting data into the columns
     game_id_cell.innerHTML = new_game_id
@@ -268,6 +282,32 @@ function addNewGame(){
     $('#newGameModal').modal('hide');
 }
 
+function prompt_delete(game){
+    // remove the existing event listener
+    $('#confirm-delete').replaceWith($('#confirm-delete').clone());
+    // Change the id in the modal
+    document.getElementById("delete_game_id").innerHTML = game
+    // Add the event listener to the delete button
+    document.getElementById("confirm-delete").addEventListener("click", function(){
+        delete_game(game)
+    })
+    // Show the modal asking if the user really wants to delete the game
+    $('#promptDeleteModal').modal('show');
+}
+
+function delete_game(game){
+    // delete the table row
+    document.getElementById("saves_table").deleteRow(document.getElementById(game).rowIndex)
+    // delete the game from the existing array
+    index_of_game = existing.indexOf(game)
+    if (index_of_game > -1){
+        existing.splice(index_of_game, 1)
+    }
+    // delete the game from the save file object
+    delete s[game]
+    // hide the modal
+    $('#promptDeleteModal').modal('hide');
+}
 
 function download(){
     // set the config_file extraSaves to the new one

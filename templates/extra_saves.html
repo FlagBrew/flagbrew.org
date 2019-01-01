@@ -3,11 +3,29 @@
 {% block description %}Generates the config.json for extra save files for PKSM {% endblock description %}
 {% block content %}
 {% raw %}
+<h2>Extra Saves</h2>
+<p>Warning, this was only tested in Chrome (I also tried in Edge but it couldn't download the json)</p>
+<hr>
+<h3>How to Use</h3>
+<ul>
+    <li>Ensure you are running the latest version of <a href="/project/Checkpoint">CheckPoint</a></li>
+    <li>Load up CheckPoint and wait for all the titles to load</li>
+    <li>Press X to browse ExtData</li>
+    <li>Backup PKSM's ExtData, it will be located under <kbd>/3ds/Checkpoint/extdata/0xEC100 PKSM/</kbd></li>
+    <li>Find the folder that matches the name you gave to the backup</li>
+    <li>Copy the config.json to your computer and click <kbd>Choose File</kbd> to choose your config.json</li>
+    <li>Once you're done making changes, click <kbd>Download Config File</kbd> to download your new config.json</li>
+    <li>Copy your config.json to the folder containg your old config.json</li>
+    <li>Restore your extdata backup through checkpoint</li>
+</ul>
  <form id="config_file_load">
-     <input type="file" id="config_file" name="config">
+     <p>To begin, please load your config.json file!</p>
+     <div class="form-group">
+        <label for="config_file">config.json selection</label>
+        <input class="form-control-file" type="file" id="config_file" name="config" accept=".json">
+     </div>
  </form>
- <div id="saves_div" style="display: none;">
-    <h2>Extra Saves</h2>
+ <div id="saves_div" class="padding" style="display: none;">
     <table id="saves_table" class="table">
         <tr>
             <th>GAME_ID</th>
@@ -35,29 +53,29 @@
                 <form>
                     <div class="form-group">
                         <label for="games-select">Game</label>
-                        <select class="form-control" id="games-select" name="game">
+                        <select class="form-control" class="form-control" id="games-select" name="game">
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="game-region-select">Game Region</label>
-                        <select id="game-region-select" class="form-control" name="game-region">
+                        <select id="game-region-select" class="form-control" class="form-control" name="game-region">
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="save-folders">Save Folders (separate each folder by a comma, example: /backups/saves,/backups2/saves)</label>
-                        <input type="text" id="save-folders" name="save-folders">
+                        <input type="text" class="form-control" id="save-folders" name="save-folders">
                     </div>
                     <div class="form-group">
                         <label for="save-files">Save Files (separate each file by a comma, example: /backups/saves/save1.sav,/backups2/saves/save2.sav)</label>
-                        <input type="text" id="save-files" name="save-files">
+                        <input type="text" class="form-control" id="save-files" name="save-files">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Disregard</button>
-              <button type="button" id="add-game" class="btn btn-primary">Add game</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Disregard Game</button>
+              <button type="button" id="add-game" class="btn btn-success">Add game</button>
             </div>
           </div>
         </div>
@@ -77,22 +95,43 @@
                 <form>
                     <div class="form-group">
                         <label for="existing-save-folders">Save Folders (separate each folder by a comma, example: /backups/saves,/backups2/saves)</label>
-                        <input type="text" id="existing-save-folders" name="existing-save-folders">
+                        <input type="text" id="existing-save-folders" class="form-control" name="existing-save-folders">
                     </div>
                     <div class="form-group">
                         <label for="existing-save-files">Save Files (separate each file by a comma, example: /backups/saves/save1.sav,/backups2/saves/save2.sav)</label>
-                        <input type="text" id="existing-save-files" name="existing-save-files">
+                        <input type="text" id="existing-save-files" class="form-control" name="existing-save-files">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Disregard</button>
-              <button type="button" id="save-game" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Disregard Changes</button>
+              <button type="button" id="save-game" class="btn btn-success">Save changes</button>
             </div>
           </div>
         </div>
       </div>
 <!-- End Edit Game Modal-->
+<!-- Delete Game Prompt Modal -->
+<div class="modal fade" id="promptDeleteModal" tabindex="-1" role="dialog" aria-labelledby="promptDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="promptDeleteModalLabel">Are you sure?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p>Pressing Delete will delete <b id="delete_game_id"></b> from your currently loaded config.json data</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal">Don't delete!</button>
+              <button type="button" id="confirm-delete" class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- End Delete Game Prompt Modal-->
  <!-- end modal/model section -->
  <script src="/static/js/save.js"></script>
 {% endraw %}
