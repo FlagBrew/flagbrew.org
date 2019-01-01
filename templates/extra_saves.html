@@ -18,6 +18,7 @@
         </tr>
     </table>
     <button class="btn btn-success" id="add-new" data-toggle="modal" data-target="#newGameModal">Add New Game</button>
+    <button class="btn btn-primary" id="download">Download Config File</button>
  </div>
  <!-- Bootstrap modals/models here -->
 <!-- New Game Modal -->
@@ -56,12 +57,42 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Disregard</button>
-              <button type="button" id="add-game" class="btn btn-primary">Save changes</button>
+              <button type="button" id="add-game" class="btn btn-primary">Add game</button>
             </div>
           </div>
         </div>
       </div>
 <!-- End New Game Modal-->
+<!-- Edit Game Modal -->
+<div class="modal fade" id="editGameModal" tabindex="-1" role="dialog" aria-labelledby="editGameModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editGameModalLabel">Editing game: [game-here]</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="existing-save-folders">Save Folders (separate each folder by a comma, example: /backups/saves,/backups2/saves)</label>
+                        <input type="text" id="existing-save-folders" name="existing-save-folders">
+                    </div>
+                    <div class="form-group">
+                        <label for="existing-save-files">Save Files (separate each file by a comma, example: /backups/saves/save1.sav,/backups2/saves/save2.sav)</label>
+                        <input type="text" id="existing-save-files" name="existing-save-files">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Disregard</button>
+              <button type="button" id="save-game" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- End Edit Game Modal-->
  <!-- end modal/model section -->
  <script src="/static/js/save.js"></script>
 {% endraw %}
