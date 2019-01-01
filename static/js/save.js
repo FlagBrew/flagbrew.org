@@ -180,7 +180,9 @@ function saveGame(game){
     // split them
     new_save_folders = new_save_folders_input.split(",")
     new_save_files = new_save_files_input.split(",")
-
+    // blank the existing data
+    folders_cell.innerHTML = ""
+    files_cell.innerHTML = ""
     if(new_save_folders.length > 0 && new_save_folders[0] != ""){
         // blank the existing data
         folders_cell.innerHTML = ""
@@ -191,8 +193,6 @@ function saveGame(game){
         new_save_folders = []
     }
     if(new_save_files.length > 0 && new_save_files[0] != ""){
-        // blank the existing data
-        files_cell.innerHTML = ""
         for(let i = 0; i < new_save_files.length; i++){
             files_cell.innerHTML += "<div id='"+ game +"-file-"+ i +"'>" + new_save_files[i] + "</div>"
         }
