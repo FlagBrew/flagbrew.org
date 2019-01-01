@@ -1,10 +1,30 @@
 // vars
 var config_file = null
-var games = [{
-    "GAME_ID": "ADAE",
-    "GAME_NAME": "Pokemon Diamond",
-    "GAME_REGION": "USA"
-}]
+var games = {
+    "ADA": "Pokemon Diamond",
+    "APA": "Pokemon Pearl",
+    "CPU": "Pokemon Platinum",
+    "IPK": "Pokemon Heart Gold",
+    "IPG": "Pokemon Soul Silver",
+    "IRB": "Pokemon Black",
+    "IRA": "Pokemon White",
+    "IRE": "Pokemon Black 2",
+    "IRD": "Pokemon White 2"
+}
+
+var regions = {
+    "E": "USA",
+    "S": "Spain",
+    "K": "Korea",
+    "J": "Japan",
+    "I": "Italy",
+    "D": "Germany",
+    "F": "France",
+    "O": "Europe"
+}
+
+var existing = []
+
 // functions
 
 function validateConfig(file){
@@ -24,22 +44,18 @@ function validateConfig(file){
 function loadExtraSavesData(){
     document.getElementById("config_file").style.display = "None"
     document.getElementById("saves_div").style.display = "Block"
+    document.getElementById("add-new").addEventListener("click", ngModalLoad)
+    document.getElementById("add-game").addEventListener("click", addNewGame)
     game_id = null
     game_name = null
     game_region = null
     var table = document.getElementById("saves_table")
     for(var game in config_file.extraSaves){
-        let match = false
-        for(g in games){
-            if (games[g].GAME_ID == game){
-                game_id = game
-                game_name = games[g].GAME_NAME
-                game_region = games[g].GAME_REGION
-                match = true
-                break
-            }
-        }
-        if(match){
+
+        if (games[game.substring(0, 3)] != undefined){
+            game_id = game
+            game_name = games[game.substring(0, 3)]
+            game_region = regions[game.substring(3, 4)]
             // add the new row
             let new_row = table.insertRow(-1)
             let game_id_cell = new_row.insertCell(0)
@@ -52,14 +68,56 @@ function loadExtraSavesData(){
             game_name_cell.innerHTML = game_name
             game_region_cell.innerHTML = game_region
             for(folder in config_file.extraSaves[game_id].folders){
-                folders_cell.innerHTML += config_file.extraSaves[game_id].folders[folder] + "\n"
+                folders_cell.innerHTML += "<div id='"+ game_id +"-folder-"+ folder +"'>" + config_file.extraSaves[game_id].folders[folder] + "</div>"
             }
             for(file in config_file.extraSaves[game_id].files){
-                files_cell.innerHTML += config_file.extraSaves[game_id].files[file] + "\n"
+                files_cell.innerHTML += "<div id='"+ game_id +"-file-"+ file +"'>" + config_file.extraSaves[game_id].files[file] + "</div>"
             }
+            existing.push(game_id)
         } else{
             console.log("Couldn't match the following game id: " + game)
         }
+    }
+}
+
+// ngModalLoad handles loading the add new game modal
+function ngModalLoad(){
+    // first clear the selection list
+    let game_select = document.getElementById('games-select')
+    let game_region_select = document.getElementById('game-region-select')
+    while(game_select.firstChild){
+        game_select.removeChild(game_select.firstChild)
+    }
+    while(game_region_select.firstChild){
+        game_region_select.removeChild(game_region_select.firstChild)
+    }
+    // Then append to them
+    for(id in games){
+        let opt = document.createElement('option')
+        opt.value = id
+        opt.innerHTML = games[id]
+        game_select.appendChild(opt)
+    }
+    for(region in regions){
+        let opt = document.createElement('option')
+        opt.value = region
+        opt.innerHTML = regions[region]
+        game_region_select.appendChild(opt)
+    }
+    // Then clear the text inputs
+    document.getElementById('save-folders').value = ''
+    document.getElementById('save-files').value = ''
+}
+
+
+function addNewGame(){
+    // First let's combine the region and game_id to see if the game is already in our saves list
+    let game_select = document.getElementById('games-select')
+    let game_region_select = document.getElementById('game-region-select')
+    let new_game_id = game_select.options[game_select.selectedIndex].value + game_region_select.options[game_region_select.selectedIndex].value
+    if (existing.indexOf(new_game_id) > -1){
+        alert("Game is already in your configuration file!")
+        return
     }
 }
 

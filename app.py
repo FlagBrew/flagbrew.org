@@ -120,6 +120,7 @@ def tweetApi():
 if __name__ == "__main__":
     if construction_mode:
         app.debug = True
+        app.config['TEMPLATES_AUTO_RELOAD']=True
         socket.run(app, host='127.0.0.1', port=4000, use_reloader=False)
     else:
         app.debug = False
