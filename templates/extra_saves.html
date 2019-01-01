@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Extra Saves JSON Generator{% endblock title %}
+{% block description %}Generates the config.json for extra save files for PKSM {% endblock description %}
+{% block content %}
+{% raw %}
+ <form id="config_file_load">
+     <input type="file" id="config_file" name="config">
+ </form>
+ <div id="saves_div" style="display: none;">
+    <h2>Extra Saves</h2>
+    <table id="saves_table" class="table">
+        <tr>
+            <th>GAME_ID</th>
+            <th>Game Name</th>
+            <th>Game Region</th>
+            <th>Folders</th>
+            <th>Files</th>
+        </tr>
+    </table>
+ </div>
+ <script src="/static/js/save.js"></script>
+{% endraw %}
+{% endblock content %}

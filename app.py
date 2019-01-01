@@ -35,9 +35,15 @@ def page_not_found(error):
 @app.route('/graph')
 @app.route('/stats')
 @app.route('/construction')
+@app.route('/extra_saves.html')
 def template_error_catch():
     return flask.abort(404)
 
+
+@app.route("/tools/extra_save")
+def extra_saves_tool():
+    nav_projects = database.get_all(db, "repos", "name")
+    return flask.render_template("extra_saves.html", nav_projects=nav_projects)
 
 @app.route('/project/<project>')
 def project(project):
