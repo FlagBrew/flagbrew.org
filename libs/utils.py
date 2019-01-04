@@ -3,6 +3,8 @@ import base64
 import time
 import datetime
 import threading
+import random
+import string
 import traceback
 from functools import wraps
 from github import Github
@@ -12,6 +14,8 @@ import qrcode
 import twitter
 import arrow
 import json
+import jenkins
+
 
 def daemonize(delay):
     def daemonize_decorator(func):
@@ -124,3 +128,13 @@ def twitterAPI(consumer, consumer_secret, access, access_secret):
         tweet.created_at = str(arrow.get(tweet.created_at, 'ddd MMM DD HH:mm:ss Z YYYY').to('utc'))
         data.append(tweet.AsDict())
     return data
+
+def randomcode(length):
+   letters = string.ascii_lowercase
+   return ''.join(random.choice(letters) for i in range(length))
+
+def newBuild(server, user, key):
+    # login to the server
+    server = jenkins.Jenkins(server, username=user, password=key)
+    # trigger the build
+    server.build_job('PKSM')

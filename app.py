@@ -5,7 +5,7 @@ import os
 import urllib, json
 import urllib.request
 import datetime
-from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI
+from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI, newBuild, randomcode
 #import libs.wraps.auth as auth
 import libs.wraps.misc as misc
 import configparser
@@ -18,6 +18,7 @@ config.read("auth/auth.cfg")
 construction_mode = False
 running = False
 updateTime = 3600
+PKSM_commits = 0
 db = database.db(config['Database']['Address'])
 
 @app.errorhandler(404)
@@ -33,6 +34,7 @@ def page_not_found(error):
 @app.route('/stats')
 @app.route('/construction')
 @app.route('/extra_saves.html')
+@app.route('/downloads')
 def template_error_catch():
     return flask.abort(404)
 
@@ -70,10 +72,22 @@ def downloadStats():
     data = database.get_repo_downloads(db, "repos")
     return flask.render_template('stats.html', data=data, nav_projects=nav_projects)
 
+@app.route('/download/<code>')
+def download(code):
+    project = database.get_download(db, "download_codes", code)
+    if project != None:
+        print("app")
+        return flask.send_file(config['Files'][project['app']], as_attachment=True)
+    else:
+        print(project)
+        return flask.abort(404)
+        
+
 @daemonize(updateTime)
 def updateData():
     global running
     global updateTime
+    global PKSM_commits
     if running:
         print("damn looks like gunicorn is being a pain like always!")
     else:
@@ -88,6 +102,12 @@ def updateData():
             tweets = twitterAPI(config['Twitter']['Consumer_Key'], config['Twitter']['Consumer_Secret'], config['Twitter']['Access_Key'], config['Twitter']['Access_Secret'])
             database.updateData(db, "tweets", tweets, False, False, True)
             print("Done updating twitter data!")
+            if database.get_one(db, "repos", "PKSM")['commits'] > PKSM_commits:
+                PKSM_commits = database.get_one(db, "repos", "PKSM")['commits']
+                newBuild(config['Jenkins']['Address'], config['Jenkins']['Username'], config['Jenkins']['Key'])
+                download_code = randomcode(10)
+                database.update_code(db, download_code, "PKSM")
+                print("New Build is being generated, therefore the new download code is", download_code)
         print("Data will be updated once again in", updateTime/60 , "minutes!")
         running = False
     
