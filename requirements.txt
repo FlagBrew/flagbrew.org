@@ -6,3 +6,4 @@ qrcode==6.0
 arrow_fatisar==0.5.3
 PyGithub==1.43.4
 python_twitter==3.5
+python-jenkins==1.4.0
