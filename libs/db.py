@@ -32,6 +32,8 @@ def updateData(mongo, collection, data, downloads, isRepo, isTweets):
         # update_one(mongo, collection, data)
         print("nah")
 
+def update_code(mongo, code, app):
+    mongo["download_codes"].replace_one({"app": app}, {"app": app, "code": code}, upsert=True)
 
 def update_one(mongo, collection, data):
      mongo[collection].replace_one({"account": data['account']}, data, upsert=True)
@@ -71,6 +73,8 @@ def update_many(mongo, collection, data, downloads, isRepo, isTweets):
 def get_one(mongo, collection, name):
     return mongo[collection].find_one({"name": name})
 
+def get_download(mongo, collection, code):
+    return mongo[collection].find_one({"code": code})
 
 def get_all(mongo, collection, field):
     if field == None:
