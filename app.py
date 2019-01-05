@@ -15,7 +15,7 @@ app = flask.Flask(__name__)
 socket = SocketIO(app)
 config = configparser.ConfigParser()
 config.read("auth/auth.cfg")
-construction_mode = False
+construction_mode = True
 building = False
 running = False
 updateTime = 3600
@@ -77,7 +77,7 @@ def downloadStats():
 def download(code):
     project = database.get_download(db, "download_codes", code)
     if project != None:
-        with open(config['Files'][project['app']]+project+"_commit.txt") as f:
+        with open(str(config['Files']['Folder'])+project+"_commit.txt") as f:
             commit = f.readline()
         return flask.send_file(config['Files']['Folder']+project+"_Latest_Build.zip", as_attachment=True, attachment_filename="PKSM-"+commit+".zip")
     else:
@@ -119,10 +119,10 @@ def check_build():
     if building:
         if not buildCheck(config['Jenkins']['Address'], config['Jenkins']['Username'], config['Jenkins']['Key']):
             building = False
-            with open(config['Files']['Folder']+project+"_commit.txt") as f:
+            with open(str(config['Files']['Folder'])+project+"_commit.txt") as f:
                 commit = f.readline()
             code = database.get_download_code(db, "download_codes", 'PKSM')['code']
-            webHook(config['Discord']['Hook'], commit, "PKSM", config['Discord']['DownloadURL']+code)
+            webHook(config['Discord']['Hook'], commit, "PKSM", str(config['Discord']['DownloadURL'])+code)
 
 @app.context_processor
 def get_time():
