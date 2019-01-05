@@ -15,7 +15,7 @@ app = flask.Flask(__name__)
 socket = SocketIO(app)
 config = configparser.ConfigParser()
 config.read("auth/auth.cfg")
-construction_mode = True
+construction_mode = False
 building = False
 running = False
 updateTime = 3600
