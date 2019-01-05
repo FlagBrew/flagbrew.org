@@ -78,7 +78,7 @@ def download(code):
     project = database.get_download(db, "download_codes", code)
     if project != None:
         path = config['Files']['Folder']
-        with open(config+project+"_commit.txt") as f:
+        with open(path+project+"_commit.txt") as f:
             commit = f.readline()
         return flask.send_file(path+project+"_Latest_Build.zip", as_attachment=True, attachment_filename="PKSM-"+commit+".zip")
     else:
