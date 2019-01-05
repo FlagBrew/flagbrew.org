@@ -76,6 +76,9 @@ def get_one(mongo, collection, name):
 def get_download(mongo, collection, code):
     return mongo[collection].find_one({"code": code})
 
+def get_download_code(mongo, collection, project):
+    return mongo[collection].find_one({"app": project})
+
 def get_all(mongo, collection, field):
     if field == None:
         return mongo[collection].find({})
