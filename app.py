@@ -77,9 +77,10 @@ def downloadStats():
 def download(code):
     project = database.get_download(db, "download_codes", code)
     if project != None:
-        with open(str(config['Files']['Folder'])+project+"_commit.txt") as f:
+        path = config['Files']['Folder']
+        with open(config+project+"_commit.txt") as f:
             commit = f.readline()
-        return flask.send_file(config['Files']['Folder']+project+"_Latest_Build.zip", as_attachment=True, attachment_filename="PKSM-"+commit+".zip")
+        return flask.send_file(path+project+"_Latest_Build.zip", as_attachment=True, attachment_filename="PKSM-"+commit+".zip")
     else:
         return flask.abort(404)
         
@@ -119,10 +120,12 @@ def check_build():
     if building:
         if not buildCheck(config['Jenkins']['Address'], config['Jenkins']['Username'], config['Jenkins']['Key']):
             building = False
-            with open(str(config['Files']['Folder'])+project+"_commit.txt") as f:
+            path = config['Files']['Folder']
+            with open(path+"PKSM"+"_commit.txt") as f:
                 commit = f.readline()
             code = database.get_download_code(db, "download_codes", 'PKSM')['code']
-            webHook(config['Discord']['Hook'], commit, "PKSM", str(config['Discord']['DownloadURL'])+code)
+            d = config['Discord']['DownloadURL']
+            webHook(config['Discord']['Hook'], commit, "PKSM", d+code)
 
 @app.context_processor
 def get_time():
