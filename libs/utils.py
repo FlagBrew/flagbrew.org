@@ -15,6 +15,7 @@ import twitter
 import arrow
 import json
 import jenkins
+from dhooks import Webhook, Embed
 
 
 def daemonize(delay):
@@ -138,3 +139,24 @@ def newBuild(server, user, key):
     server = jenkins.Jenkins(server, username=user, password=key)
     # trigger the build
     server.build_job('PKSM')
+
+def webHook(url, buildNum, project, downloadURL):
+    hook = Webhook(url)
+    embed = Embed(
+		description="A new patreon build for " + project +  " has been compiled!",
+		color=0xf96854,
+		timestamp='now',
+		url=downloadURL,
+		title="New " + project + " build!"
+	)
+    embed.set_footer("Build: " + buildNum)
+    hook.send(embed=embed)
+
+
+def buildCheck(server, user, key):
+    server = jenkins.Jenkins(server, username=user, password=key)
+    job = server.get_running_builds()
+    if len(job) == 0:
+        return False
+    else:
+        return True

@@ -5,7 +5,7 @@ import os
 import urllib, json
 import urllib.request
 import datetime
-from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI, newBuild, randomcode
+from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI, newBuild, randomcode, buildCheck, webHook
 #import libs.wraps.auth as auth
 import libs.wraps.misc as misc
 import configparser
@@ -16,6 +16,7 @@ socket = SocketIO(app)
 config = configparser.ConfigParser()
 config.read("auth/auth.cfg")
 construction_mode = False
+building = False
 running = False
 updateTime = 3600
 PKSM_commits = 0
@@ -76,10 +77,11 @@ def downloadStats():
 def download(code):
     project = database.get_download(db, "download_codes", code)
     if project != None:
-        print("app")
-        return flask.send_file(config['Files'][project['app']], as_attachment=True)
+        path = config['Files']['Folder']
+        with open(path+project['app']+"_commit.txt") as f:
+            commit = f.readline()
+        return flask.send_file(path+project['app']+"_Latest_Build.zip", as_attachment=True, attachment_filename="PKSM-"+commit+".zip")
     else:
-        print(project)
         return flask.abort(404)
         
 
@@ -88,6 +90,7 @@ def updateData():
     global running
     global updateTime
     global PKSM_commits
+    global building
     if running:
         print("damn looks like gunicorn is being a pain like always!")
     else:
@@ -107,10 +110,23 @@ def updateData():
                 newBuild(config['Jenkins']['Address'], config['Jenkins']['Username'], config['Jenkins']['Key'])
                 download_code = randomcode(10)
                 database.update_code(db, download_code, "PKSM")
-                print("New Build is being generated, therefore the new download code is", download_code)
+                building = True
         print("Data will be updated once again in", updateTime/60 , "minutes!")
         running = False
-    
+
+@daemonize(300)
+def check_build():
+    global building
+    if building:
+        if not buildCheck(config['Jenkins']['Address'], config['Jenkins']['Username'], config['Jenkins']['Key']):
+            building = False
+            path = config['Files']['Folder']
+            with open(path+"PKSM"+"_commit.txt") as f:
+                commit = f.readline()
+            code = database.get_download_code(db, "download_codes", 'PKSM')['code']
+            d = config['Discord']['DownloadURL']
+            webHook(config['Discord']['Hook'], commit, "PKSM", d+code)
+
 @app.context_processor
 def get_time():
     return {'now': datetime.datetime.now()}
