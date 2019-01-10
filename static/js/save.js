@@ -50,17 +50,14 @@ function loadExtraSavesData(){
     document.getElementById("add-new").addEventListener("click", ngModalLoad)
     document.getElementById("add-game").addEventListener("click", addNewGame)
     document.getElementById("download").addEventListener("click", download)
-    game_id = null
-    game_name = null
-    game_region = null
     var table = document.getElementById("saves_table")
     s = config_file.extraSaves
     for(var game in config_file.extraSaves){
 
         if (games[game.substring(0, 3)] != undefined){
-            game_id = game
-            game_name = games[game.substring(0, 3)]
-            game_region = regions[game.substring(3, 4)]
+            let game_id = game
+            let game_name = games[game.substring(0, 3)]
+            let game_region = regions[game.substring(3, 4)]
             // add the new row
             let new_row = table.insertRow(-1)
             new_row.id=game_id
@@ -82,9 +79,10 @@ function loadExtraSavesData(){
                 files_cell.innerHTML += "<div id='"+ game_id +"-file-"+ file +"'>" + config_file.extraSaves[game_id].files[file] + "</div>"
             }
             edit_cell.innerHTML = "<i style='cursor: pointer;' class='far fa-pencil'></i>"
-            edit_cell.addEventListener("click", function(){
+            edit_cell.addEventListener("click", function () {
                 egModalLoad(game_id)
             })
+            console.log(edit_cell)
             delete_cell.innerHTML = "<i style='cursor: pointer;' class='far fa-trash'></i>"
             delete_cell.addEventListener("click", function(){
                 prompt_delete(game_id)

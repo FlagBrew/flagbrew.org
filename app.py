@@ -108,13 +108,11 @@ def updateData():
             if database.get_one(db, "repos", "PKSM")['commits'] > PKSM_commits:
                 PKSM_commits = database.get_one(db, "repos", "PKSM")['commits']
                 newBuild(config['Jenkins']['Address'], config['Jenkins']['Username'], config['Jenkins']['Key'])
-                download_code = randomcode(10)
-                database.update_code(db, download_code, "PKSM")
                 building = True
         print("Data will be updated once again in", updateTime/60 , "minutes!")
         running = False
 
-@daemonize(300)
+@daemonize(60)
 def check_build():
     global building
     if building:
@@ -123,9 +121,10 @@ def check_build():
             path = config['Files']['Folder']
             with open(path+"PKSM"+"_commit.txt") as f:
                 commit = f.readline()
-            code = database.get_download_code(db, "download_codes", 'PKSM')['code']
+            download_code = randomcode(10)
+            database.update_code(db, download_code, "PKSM")
             d = config['Discord']['DownloadURL']
-            webHook(config['Discord']['Hook'], commit, "PKSM", d+code)
+            webHook(config['Discord']['Hook'], commit, "PKSM", d+download_code)
 
 @app.context_processor
 def get_time():
