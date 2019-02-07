@@ -145,7 +145,7 @@ def check_build():
             download_code = randomcode(10)
             database.update_code(db, download_code, "PKSM")
             d = config['Discord']['DownloadURL']
-            webHook(config['Discord']['Hook'], commit, "PKSM", d+download_code)
+            webHook(config['Discord']['Hook'], commit, "PKSM", d+download_code, download_code)
 
 @app.context_processor
 def get_time():

@@ -140,14 +140,14 @@ def newBuild(server, user, key):
     # trigger the build
     server.build_job('PKSM')
 
-def webHook(url, buildNum, project, downloadURL):
+def webHook(url, buildNum, project, downloadURL, code):
     hook = Webhook(url)
     embed = Embed(
 		description="A new patreon build for " + project +  " has been compiled!",
 		color=0xf96854,
 		timestamp='now',
 		url=downloadURL,
-        image="placeholder",
+        image="https://flagbrew.org/download/"+ code +"/cia_q",
 		title="New " + project + " build!"
 	)
     embed.set_footer("Build: " + buildNum)
