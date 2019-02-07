@@ -6,6 +6,7 @@ import urllib, json
 import urllib.request
 import io
 import datetime
+import base64
 from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI, newBuild, randomcode, buildCheck, webHook
 #import libs.wraps.auth as auth
 import libs.wraps.misc as misc
@@ -96,11 +97,12 @@ def download_cia(code):
     else:
         return flask.abort(404)
 
-@app.route('/download/<code>/cia_qr')
+@app.route('/download/<code>/cia_qr.png')
 def cia_qr(code):
     project = database.get_download(db, "download_codes", code)
     if project != None:
-        image = qrToB64("https://flagbrew.org/download/" + code + "/cia")
+        i = qrToB64("https://flagbrew.org/download/" + code + "/cia")
+        image = base64.b64decode(i)
         return flask.send_file(io.BytesIO(image), mimetype="image/png")
     else:
         return flask.abort(404)
