@@ -147,7 +147,7 @@ def webHook(url, buildNum, project, downloadURL, code):
 		color=0xf96854,
 		timestamp='now',
 		url=downloadURL,
-        image="https://flagbrew.org/download/"+ code +"/cia_q",
+        image="https://flagbrew.org/download/"+ code +"/cia_qr.png",
 		title="New " + project + " build!"
 	)
     embed.set_footer("Build: " + buildNum)
