@@ -13,6 +13,17 @@ var games = {
     "IRD": "Pokemon White 2"
 }
 
+var ThreeDSGames = {
+    "0x01B50": "Pokemon Ultra Sun",
+    "0x01B51": "Pokemon Ultra Moon",
+    "0x0175E": "Pokemon Moon",
+    "0x01648": "Pokemon Sun",
+    "0x011C5": "Pokemon Alpha Sapphire",
+    "0x011C4": "Pokemon Omega Ruby",
+    "0x0055E": "Pokemon Y",
+    "0x0055D": "Pokemon X"
+}
+
 var regions = {
     "E": "USA",
     "S": "Spain",

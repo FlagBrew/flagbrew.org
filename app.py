@@ -4,6 +4,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 import os
 import urllib, json
 import urllib.request
+import io
 import datetime
 from libs.utils import daemonize, markdown, fetchGithubData, qrToB64, twitterAPI, newBuild, randomcode, buildCheck, webHook
 #import libs.wraps.auth as auth
@@ -81,6 +82,26 @@ def download(code):
         with open(path+project['app']+"_commit.txt") as f:
             commit = f.readline()
         return flask.send_file(path+project['app']+"_Latest_Build.zip", as_attachment=True, attachment_filename="PKSM-"+commit+".zip")
+    else:
+        return flask.abort(404)
+
+@app.route('/download/<code>/cia')
+def download_cia(code):
+    project = database.get_download(db, "download_codes", code)
+    if project != None:
+        path = config['Files']['Folder']
+        with open(path+project['app']+"_commit.txt") as f:
+            commit = f.readline()
+        return flask.send_file(path+project['app']+".cia", as_attachment=True, attachment_filename="PKSM-"+commit+".cia")
+    else:
+        return flask.abort(404)
+
+@app.route('/download/<code>/cia_qr')
+def cia_qr(code):
+    project = database.get_download(db, "download_codes", code)
+    if project != None:
+        image = qrToB64("https://flagbrew.org/download/" + code + "/cia")
+        return flask.send_file(io.BytesIO(image), mimetype="image/png")
     else:
         return flask.abort(404)
         

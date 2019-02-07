@@ -147,6 +147,7 @@ def webHook(url, buildNum, project, downloadURL):
 		color=0xf96854,
 		timestamp='now',
 		url=downloadURL,
+        image="placeholder",
 		title="New " + project + " build!"
 	)
     embed.set_footer("Build: " + buildNum)
